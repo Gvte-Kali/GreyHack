@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Manuel Grey Hack bilingue et carnet de mission hors ligne. Bilingual Grey Hack handbook and offline mission log.">
+<title>Grey Hack · Manuel</title>
+<style>
+:root{color-scheme:dark;--bg:#12151a;--surface:#1a1f26;--raised:#222832;--border:#343d49;--ink:#f1f4f7;--muted:#b2bdcb;--green:#b8f697;--blue:#aaceff;--amber:#ffda8f;--mono:"Cascadia Code","IBM Plex Mono",Consolas,monospace;--sans:"Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.56 var(--sans)}
+button,input,select,textarea{font:inherit;color:inherit}button,input,select,textarea{border:1px solid var(--border);border-radius:.55rem;background:var(--bg);padding:.55rem .72rem}
+button{cursor:pointer}button:hover{border-color:var(--green)}button:disabled{opacity:.45;cursor:default}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+a{color:var(--blue);text-underline-offset:.22em}
+h1,h2,h3,p{margin-top:0}h1{font-size:clamp(2.15rem,5vw,4rem);line-height:1.04;letter-spacing:-.065em;margin-bottom:1rem}h2{font-size:1.6rem;letter-spacing:-.03em;margin-bottom:.45rem}h3{font-size:1.05rem;margin-bottom:.45rem}p{margin-bottom:.75rem}p:last-child{margin-bottom:0}
+code,pre,.mono,.eyebrow{font-family:var(--mono)}code{overflow-wrap:anywhere}
+.bar{border-bottom:1px solid var(--border);background:#171b21}.bar-inner,.layout{max-width:1330px;margin:auto;padding-inline:clamp(16px,4vw,48px)}.bar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:66px}.brand{font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.025em}.brand span{color:var(--green);margin-right:.5rem}
+.layout{display:grid;grid-template-columns:214px minmax(0,1fr);gap:clamp(24px,4vw,52px);padding-block:30px 64px}.rail{position:sticky;top:18px;align-self:start}.rail label{font-size:.81rem;font-weight:650;color:var(--muted)}.rail input{width:100%;margin:.35rem 0 1rem}.rail nav{display:grid;gap:.15rem}.rail a{font-size:.91rem;padding:.45rem .65rem;color:var(--muted);border-radius:.45rem;text-decoration:none}.rail a:hover,.rail a:focus-visible{color:var(--ink);background:var(--raised)}
+.hero{border:1px solid var(--border);border-radius:1rem;padding:clamp(21px,4vw,43px);background:radial-gradient(ellipse at 90% 0%,#304236 0%,transparent 57%),var(--surface);margin-bottom:1.25rem}.hero p{max-width:68ch}.eyebrow{color:var(--green);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.75rem}.muted,.help{color:var(--muted)}.help{font-size:.87rem}
+.panel{padding:clamp(16px,2.5vw,27px);background:var(--surface);border:1px solid var(--border);border-radius:.9rem;margin-bottom:1.1rem;scroll-margin-top:16px}.heading{margin-bottom:1rem}.toolbar{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center}.primary{background:var(--green);color:#182114;border-color:var(--green);font-weight:700}.primary:hover{background:#d0ffb9}
+.split,.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}.split{margin-top:1rem}.field{display:grid;align-content:start;gap:.28rem;font-size:.9rem}.field input,.field textarea,.field select{width:100%;min-width:0;font-size:1rem}.wide{grid-column:1/-1}textarea{resize:vertical}.storage{margin-top:1rem}
+.check{display:grid;gap:.55rem}.step{display:grid;grid-template-columns:1.15rem minmax(0,1fr);align-items:start;gap:.65rem;background:var(--raised);padding:.7rem .85rem;border-radius:.5rem;cursor:pointer}.step input{accent-color:var(--green);margin:.34rem 0 0;width:1.05rem;height:1.05rem}.step small{display:block;color:var(--muted)}.progress-row{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}progress{width:100%;accent-color:var(--green);height:.75rem}.progress-row output{white-space:nowrap;font: .84rem var(--mono)}
+article.card{border:1px solid var(--border);border-radius:.65rem;padding:.95rem;background:var(--bg);min-width:0}article.card p{font-size:.93rem}.tag{display:inline-block;font-size:.71rem;border:1px solid currentColor;border-radius:1rem;padding:.06rem .46rem;margin-bottom:.55rem;color:var(--muted)}.verified{color:var(--green)}.pending{color:var(--amber)}.reference{color:var(--blue)}
+pre{margin:.7rem 0;padding:.75rem;border-radius:.45rem;background:#0e1014;overflow:auto;color:var(--green);font-size:.88rem;tab-size:4}.card .copy{font-size:.84rem;padding:.35rem .55rem;margin-bottom:.6rem}.card footer{color:var(--muted);font-size:.8rem;margin-top:.6rem}.topology{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;margin:.8rem 0}.node{padding:.5rem .65rem;border:1px solid var(--border);border-radius:.45rem;background:var(--raised);font-weight:600}.arrow{color:var(--green)}
+details{padding:.6rem 0;border-bottom:1px solid var(--border)}details:last-child{border-bottom:0}summary{cursor:pointer;font-weight:650}details p{margin:.5rem 0 .2rem}.status-bar{font-size:.85rem;min-height:1.5em;margin:.6rem 0 0;color:var(--muted)}[hidden]{display:none!important}
+@media(max-width:880px){.layout{grid-template-columns:1fr;gap:1rem}.rail{position:static}.rail nav{display:flex;flex-wrap:wrap}.rail input{margin-bottom:.35rem}.rail a{padding:.35rem .48rem}}@media(max-width:550px){.split,.grid{grid-template-columns:1fr}.wide{grid-column:auto}.hero{border-radius:.7rem}.panel{border-radius:.7rem}}
+.service-guides{margin-top:1rem}.card .next{border-top:1px solid var(--border);padding-top:.65rem;margin-top:.7rem}.next strong{display:block;color:var(--ink)}
+</style>
+</head>
+<body>
+<header class="bar"><div class="bar-inner"><a class="brand" href="#top"><span aria-hidden="true">▣</span>Grey Hack</a><button id="language" type="button" lang="en">English (EN)</button></div></header>
+<div class="layout" id="top">
+  <aside class="rail">
+    <label for="search" data-i="search"></label>
+    <input id="search" type="search" autocomplete="off" data-ph="query">
+    <p class="status-bar" id="matches" role="status"></p>
+    <nav id="nav" data-aria="navigation"></nav>
+  </aside>
+  <main>
+    <noscript>Active JavaScript pour utiliser ce manuel. Enable JavaScript to use this handbook.</noscript>
+    <header class="hero"><p class="eyebrow" data-i="eyebrow"></p><h1 data-i="headline"></h1><p class="muted" data-i="intro"></p></header>
+    <section class="panel library" id="setup">
+      <header class="heading"><h2 data-i="setup"></h2><p class="muted" data-i="setupIntro"></p></header>
+      <div class="grid" id="setup-cards"></div>
+    </section>
+    <section class="panel" id="missions" aria-labelledby="missions-title">
+      <header class="heading"><h2 id="missions-title" data-i="missions"></h2><p class="muted" data-i="missionsIntro"></p></header>
+      <div class="toolbar">
+        <select id="mission-picker" data-aria="choose"></select>
+        <button id="add" type="button" class="primary" data-i="new"></button>
+        <button id="remove" type="button" data-i="remove"></button>
+      </div>
+      <div class="split" id="fields"></div>
+      <div class="toolbar storage">
+        <button id="export" type="button" data-i="export"></button>
+        <button id="import" type="button" data-i="import"></button>
+        <input id="import-file" type="file" accept=".json,application/json" hidden>
+      </div>
+      <p class="status-bar" id="status" role="status"></p>
+      <p class="help" data-i="storage"></p>
+    </section>
+    <section class="panel" id="checklist" aria-labelledby="checklist-title">
+      <header class="heading"><h2 id="checklist-title" data-i="checklist"></h2><p class="muted" data-i="checkIntro"></p></header>
+      <div class="progress-row"><progress id="progress" data-aria="progress"></progress><output id="progress-value"></output></div>
+      <div class="check" id="steps"></div>
+    </section>
+    <section class="panel library" id="commands">
+      <header class="heading"><h2 data-i="commands"></h2><p class="muted" data-i="commandsIntro"></p></header>
+      <div class="grid" id="command-cards"></div>
+    </section>
+    <section class="panel library" id="services">
+      <header class="heading"><h2 data-i="services"></h2><p class="muted" data-i="servicesIntro"></p></header>
+      <div class="grid" id="service-cards"></div>
+      <div class="grid service-guides" id="service-guides"></div>
+    </section>
+    <section class="panel library" id="network">
+      <header class="heading"><h2 data-i="network"></h2><p class="muted" data-i="networkIntro"></p></header>
+      <div class="topology" id="topology" data-aria="network" role="img"></div>
+      <div class="grid" id="network-cards"></div>
+    </section>
+    <section class="panel library" id="diagnostics">
+      <header class="heading"><h2 data-i="diagnostics"></h2><p class="muted" data-i="diagnosticsIntro"></p></header>
+      <div id="diagnostic-cards"></div>
+    </section>
+    <section class="panel library" id="sources">
+      <header class="heading"><h2 data-i="sources"></h2><p class="muted" data-i="sourcesIntro"></p></header>
+      <div class="toolbar" id="legend"></div>
+      <ul id="source-list"></ul>
+      <p class="help" data-i="editSource"></p>
+    </section>
+  </main>
+</div>
+<script>
+'use strict';
+// Texte bilingue et fiches / Bilingual text and cards. Chaque paire est [FR, EN].
+const ui = {
+  title:['Grey Hack · Manuel','Grey Hack · Handbook'],
+  eyebrow:['Guide de jeu · Carnet hors ligne','Game guide · Offline notebook'],
+  headline:['Manuel Grey Hack','Grey Hack Handbook'],
+  intro:['Prépare tes missions, interprète les observations réseau et garde tes notes à portée de main.','Plan your missions, interpret network observations, and keep your notes close at hand.'],
+  search:['Rechercher dans le manuel','Search the handbook'], query:['Ex. routeur, SSH, port fermé','E.g. router, SSH, closed port'],
+  navigation:['Sommaire','Contents'], choose:['Mission active','Active mission'],
+  setup:['Préparation et bonnes pratiques','Setup and good practices'],
+  setupIntro:['Prépare ton environnement avant d’ouvrir une mission. Garde une référence connue pour reproduire les erreurs.','Prepare your environment before opening a mission. Keep a known baseline for reproducing errors.'],
+  missions:['Carnet de mission','Mission notebook'], missionsIntro:['Les notes et la checklist sont propres à chaque mission.','Notes and checklist progress are tracked separately for each mission.'],
+  new:['Nouvelle mission','New mission'], remove:['Supprimer la mission','Delete mission'],
+  untitled:['Mission sans titre','Untitled mission'], confirm:['Supprimer cette mission et ses notes ?','Delete this mission and its notes?'],
+  export:['Exporter le carnet','Export notebook'], import:['Importer un carnet','Import notebook'],
+  imported:['Missions importées dans le carnet.','Missions imported into the notebook.'],
+  importError:['Ce fichier ne correspond pas à un export du carnet.','This file is not a valid notebook export.'],
+  saved:['Enregistré dans ce navigateur.','Saved in this browser.'],
+  unsaved:['Le navigateur bloque la sauvegarde locale. Exporte le carnet avant de fermer la page.','The browser is blocking local storage. Export the notebook before closing the page.'],
+  storage:['L’export JSON permet de transférer tes notes vers un autre navigateur, un autre emplacement du fichier ou GitHub Pages. Une importation ajoute des copies au carnet.','Export JSON to move your notes to another browser, file location, or GitHub Pages. Importing adds copies to your notebook.'],
+  checklist:['Checklist','Checklist'], checkIntro:['Coche les étapes au fil de ta mission.','Check off steps as you work through the mission.'],
+  progress:['Progression de la checklist','Checklist progress'],
+  commands:['Commandes et GreyScript','Commands and GreyScript'],
+  commandsIntro:['Exemples à copier dans le terminal ou le CodeEditor du jeu. Le manuel intégré fait référence pour ta version.','Copy examples into the in-game terminal or CodeEditor. The in-game manual is the reference for your build.'],
+  services:['Fiches par service','Service reference'],
+  next:['Prochaine étape sur ton installation','Next step on your own setup'],
+  servicesIntro:['Relève le nom du service, le port observé, l’état et la version affichée. Les numéros ci-dessous sont des repères usuels.','Record the service name, observed port, state, and reported version. The numbers below are common defaults.'],
+  network:['Routeur et contexte réseau','Router and network context'],
+  networkIntro:['Lis une topologie typique et examine les écarts entre le brief et tes observations.','Read a typical topology and investigate differences between the brief and your observations.'],
+  diagnostics:['Diagnostics','Troubleshooting'],
+  diagnosticsIntro:['Consigne le message exact, la version du jeu et la machine depuis laquelle tu l’as obtenu.','Record the exact message, game build, and machine where it appeared.'],
+  sources:['Sources et vérification','Sources and verification'],
+  sourcesIntro:['Vérification documentaire le 14 novembre 2026. Les exemples n’ont pas été exécutés dans le jeu.','Documentation checked on November 14, 2026. The examples were not run in the game.'],
+  editSource:['Pour modifier les fiches, ouvre index.html dans un éditeur de texte. Les versions FR et EN sont côte à côte dans les blocs de données du script.','To edit the handbook, open index.html in a text editor. The FR and EN versions sit side by side in the script’s data blocks.'],
+  verified:['Vérifié sur source','Source-verified'], pending:['Non confirmé sur ta version','Unconfirmed on your build'], reference:['Notion ou convention','Concept or convention'],
+  copy:['Copier','Copy'], copied:['Copié','Copied'], copyHelp:['Texte sélectionné. Appuie sur Ctrl+C ou ⌘C.','Text selected. Press Ctrl+C or ⌘C.'],
+  empty:['Aucun résultat. Essaie un terme plus court ou dans l’autre langue.','No results. Try a shorter term or the other language.'],
+  result:['résultat','result'], results:['résultats','results']
+};
+
+const fields = [
+  ['title',['Nom de la mission','Mission name']],
+  ['build',['Version et branche du jeu','Game build and branch']],
+  ['address',['Adresse publique dans le brief','Public address in the brief']],
+  ['host',['Hôte ou adresse LAN indiquée','Host or LAN address in the brief']],
+  ['goal',['Objectif et critère de réussite','Objective and success criterion'],3],
+  ['deliverable',['Rendu et confirmation du jeu','Deliverable and in-game confirmation'],3],
+  ['observations',['Observations réseau et services','Network and service observations'],3],
+  ['notes',['Notes et questions ouvertes','Notes and open questions'],5],
+  ['personal',['Commandes personnelles et contexte','Personal commands and context'],3]
+];
+const steps = [
+  ['baseline',['Préparer une session de référence','Prepare a baseline session'],['Ouvrir le manuel du jeu et vérifier le terminal sur ta machine. Garde un environnement de test sous la main.','Open the in-game manual and check the terminal on your machine. Keep a test environment handy.']],
+  ['brief',['Relire le brief','Read the brief'],['Reporter l’objectif, l’hôte ou le chemin exact, et le format du rendu.','Record the objective, exact host or path, and expected deliverable.']],
+  ['build',['Identifier la version du jeu','Identify the game build'],['Noter Public, Nightly ou Experimental et le numéro indiqué en jeu.','Record Public, Nightly, or Experimental and the build number shown in-game.']],
+  ['context',['Identifier le contexte du terminal','Identify the terminal context'],['Noter la machine et le répertoire courant.','Record the machine and current directory.']],
+  ['topology',['Lire la topologie','Read the topology'],['Distinguer IP publique, IP LAN du routeur et hôte de destination.','Distinguish public IP, router LAN IP, and destination host.']],
+  ['services',['Consigner les services observés','Record observed services'],['Noter le port, l’état, le service, la version, la provenance et l’heure.','Record port, state, service, version, vantage point, and time.']],
+  ['diagnose',['Documenter les écarts','Document discrepancies'],['Conserver le message exact et distinguer ce que tu as vu de ce que tu en déduis.','Save the exact message and distinguish observations from inferences.']],
+  ['validate',['Valider le résultat demandé','Validate the requested result'],['Comparer l’identité de l’hôte et le résultat au brief, puis relever ce que le jeu confirme.','Compare the host identity and result with the brief, then record what the game confirms.']],
+  ['archive',['Archiver le compte rendu','Archive the report'],['Résumer le résultat et exporter le carnet si tu veux garder une copie.','Summarize the result and export the notebook if you want a copy.']]
+];
+
+const sources = {
+  steam:['Grey Hack · Steam','https://store.steampowered.com/app/605230/Grey_Hack/',['Présentation développeur, manuel intégré et code source des commandes.','Developer overview, in-game manual, and terminal command source.']],
+  current:['Grey Hack · Update 0.9.7374','https://store.steampowered.com/oldnews/?appgroupname=Grey+Hack&appids=605230&feed=steam_community_announcements&headlines=0',['Branche publique, retrait du service de chat et changements par version.','Public branch, chat service removal, and build-specific changes.']],
+  pwd:['Grey Hack · Nightly v0.8.4456a','https://store.steampowered.com/news/posts/?appids=605230&enddate=1661287807&feed=steam_community_announcements',['Ajout de whoami et entrée du manuel pour pwd.','Addition of whoami and manual entry for pwd.']],
+  commands:['Grey Hack · Notes de mars 2019 / March 2019 notes','https://store.steampowered.com/news/posts/?appids=605230&enddate=1553561566&feed=steam_community_announcements',['Commandes ls et cd et migration vers GreyScript.','ls and cd commands and migration to GreyScript.']],
+  map:['Grey Hack · Notes de novembre 2019 / November 2019 notes','https://store.steampowered.com/news/posts/?appids=605230&enddate=1574708681',['Comportement de nmap, adresses LAN et services derrière le routeur.','nmap behavior, LAN addresses, and services behind the router.']],
+  services:['Grey Hack · Nightly v0.8.4327a','https://store.steampowered.com/news/posts/?appids=605230&enddate=1656364114&feed=steam_community_announcements',['Services historiques et outils de configuration.','Historical services and configuration tools.']],
+  script:['Grey Hack · Notes GreyScript / GreyScript notes','https://store.steampowered.com/oldnews/?appgroupname=Grey+Hack&appids=605230&feed=steam_community_announcements',['Historique des fonctions print et user_input.','History of the print and user_input functions.']],
+  meta:['Grey Hack · Notes Metaxploit / Metaxploit notes','https://store.steampowered.com/news/posts/?appids=605230&enddate=1564362073',['Mention des messages de compatibilité de la bibliothèque.','Documents compatibility messages for the library.']],
+  shop:['Grey Hack · Nightly v0.7.2511a','https://store.steampowered.com/news/posts/?appids=605230&enddate=1568778390',['Documentation historique du catalogue HackShop et de ses métadonnées de compatibilité.','Historical documentation of the HackShop catalog and its compatibility metadata.']],
+  iana:['IANA · Service Name and Port Number Registry','https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml',['Ports usuels des protocoles réseau.','Standard network protocol port assignments.']],
+  mini:['MiniScript · Language reference','https://miniscript.org/',['Langage dont GreyScript est dérivé. Voir le manuel du jeu pour les extensions GreyScript.','The language GreyScript derives from. See the in-game manual for GreyScript extensions.']],
+  github:['GitHub Docs · Creating a GitHub Pages site','https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site',['Publication de index.html à la racine de la source choisie.','Publishing index.html from the root of the selected source.']]
+};
+
+const commands = [
+  {name:['Répertoire courant','Current directory'],status:'verified',src:'pwd',code:'pwd',desc:['Terminal du jeu. Affiche le chemin du répertoire courant, utile après avoir changé de fenêtre.','In-game terminal. Prints your current directory, useful after switching windows.']},
+  {name:['Compte de la session','Session account'],status:'verified',src:'pwd',code:'whoami',desc:['Terminal du jeu. Affiche le compte de la session courante. Associe ce résultat à la machine indiquée par le terminal.','In-game terminal. Displays the current session account. Record it alongside the machine shown in the terminal.']},
+  {name:['Lister le contenu','List directory entries'],status:'verified',src:'commands',code:'ls',desc:['Terminal du jeu. Liste les entrées du répertoire courant. Relance pwd si la liste te surprend.','In-game terminal. Lists entries in the current directory. Run pwd again if the listing surprises you.']},
+  {name:['Remonter d’un dossier','Move up one directory'],status:'pending',src:'commands',code:'cd ..\npwd',desc:['Terminal du jeu. La première ligne remonte au parent. La deuxième affiche le chemin obtenu. Le développeur mentionne cd, et la forme avec « .. » reste à valider en jeu.','In-game terminal. The first line moves to the parent directory. The second prints the resulting path. The developer mentions cd, and the “..” form remains to be checked in-game.']},
+  {name:['Inventorier ton routeur de jeu','Inventory your in-game router'],status:'pending',src:'map',code:'nmap IP_DE_TON_ROUTEUR',codeEn:'nmap YOUR_ROUTER_IP',desc:['Terminal du jeu, sur ton propre routeur. Remplace le texte en majuscules par son IP dans Grey Hack. La présence de nmap est documentée. Vérifie la syntaxe et les options dans le manuel de ta branche. Compare l’état et l’hôte LAN reportés avec ta configuration.','In-game terminal, against your own router. Replace the uppercase placeholder with its Grey Hack IP. nmap is documented. Check syntax and options in your build’s manual. Compare the reported state and LAN host with your configuration.']},
+  {name:['Afficher une valeur','Print a value'],status:'verified',src:'script',code:'// Dans le CodeEditor du jeu\nprint("Grey Hack")',codeEn:'// In the in-game CodeEditor\nprint("Grey Hack")',desc:['CodeEditor. Ce script minimal affiche une ligne dans le terminal. Il permet de vérifier qu’un programme simple compile et s’exécute.','CodeEditor. This minimal script prints one line to the terminal. Use it to check that a simple program compiles and runs.']},
+  {name:['Saisir un libellé de mission','Read a mission label'],status:'verified',src:'script',code:'// Saisie locale et retour dans le terminal\nlabel = user_input("Nom de la mission : ")\nprint(label)',codeEn:'// Read local input and echo it to the terminal\nlabel = user_input("Mission name: ")\nprint(label)',desc:['CodeEditor. user_input attend une saisie, puis print affiche la valeur obtenue. Utilise un libellé ordinaire.','CodeEditor. user_input waits for input, then print displays the value. Use an ordinary label.']},
+  {name:['Metaxploit et compatibilité','Metaxploit and compatibility'],status:'verified',src:'meta',desc:['Les notes du développeur mentionnent un message signalant une bibliothèque metaxploit.so obsolète. Pour diagnostiquer ce message, relève la version de la bibliothèque et la branche du jeu, puis consulte le manuel intégré.','Developer notes mention a message for an outdated metaxploit.so library. To diagnose this message, record the library version and game branch, then consult the in-game manual.']}
+];
+
+const setup = [
+  {name:['Choisir le monde et la branche','Choose your game world and branch'],status:'reference',src:'current',desc:['Commence en solo pour apprendre le terminal et reproduire une erreur. Note aussi si une mission se déroule en multijoueur. Associe chaque note technique au numéro de version.','Start in single-player to learn the terminal and reproduce errors. Also record when a mission is multiplayer. Attach the build number to each technical note.']},
+  {name:['Organiser les fenêtres','Arrange your workspace'],status:'reference',desc:['Ouvre le brief, le Terminal, le manuel intégré et ce carnet. Garde CodeEditor pour les scripts que tu écris ou consultes. Donne un libellé distinct à chaque contexte dans tes notes.','Open the brief, Terminal, in-game manual, and this notebook. Use CodeEditor for scripts you write or inspect. Give each context a distinct label in your notes.']},
+  {name:['Créer un environnement de test','Create a test environment'],status:'reference',desc:['Sur un réseau de jeu que tu contrôles, prépare un service, un compte de test et un fichier factice. Note le résultat attendu quand le service est actif. Reproduis ensuite un arrêt du service ou un accès refusé pour apprendre à reconnaître les messages.','On an in-game network you control, prepare one service, one test account, and a dummy file. Record the expected result while the service is running. Then reproduce a stopped service or permission error to learn the messages.']},
+  {name:['Contrôler les scripts avant usage','Review scripts before use'],status:'reference',src:'steam',desc:['Quand le code est disponible, ouvre-le dans CodeEditor. Identifie les entrées, les fichiers lus ou modifiés et les appels réseau. Pour tes essais, préfère un fichier factice et des données de test. Archive la version exacte du script avec tes notes.','When source is available, open it in CodeEditor. Identify inputs, files read or changed, and network calls. For testing, use a dummy file and test data. Archive the exact script version with your notes.']},
+  {name:['Définir le rendu avant de commencer','Define the deliverable before starting'],status:'reference',desc:['Recopie l’hôte, le chemin ou le résultat attendu, et le canal de rendu indiqué. Pour un fichier, conserve son nom et son extension. Pour une remise par message, vérifie le destinataire dans le brief.','Write down the expected host, path or result, and delivery channel. For a file, retain its name and extension. For a message submission, check the recipient in the brief.']},
+  {name:['Une variable par essai','Change one variable per test'],status:'reference',desc:['Si le résultat change, note ce qui a changé entre les essais. Commence par l’état du service, le compte, la machine d’origine et le port. Reviens à l’essai de référence pour confirmer une hypothèse.','If the result changes, record what changed between tests. Start with service status, account, source machine, and port. Return to the baseline test to confirm a hypothesis.']},
+  {name:['Préparer une sauvegarde','Prepare a backup'],status:'reference',desc:['Exporte régulièrement le carnet. Conserve les scripts personnels dans un dossier à part et garde les identifiants hors des notes et du dépôt public. Avant une mise à jour du jeu, vérifie que tu peux retrouver tes fichiers.','Export the notebook regularly. Keep personal scripts in a separate folder and keep credentials out of notes and public repositories. Before updating the game, make sure you can find your files.']},
+  {name:['Quoi vérifier selon le rendu','What to verify by deliverable'],status:'reference',desc:['Pour un fichier, recoupe le chemin, le nom et la présence du fichier attendu. Pour une réponse, vérifie le format et le destinataire indiqués. Pour un objectif à valider dans le jeu, relève le message de confirmation ou le motif de refus avant de clôturer.','For a file, confirm the path, name, and presence of the expected file. For a reply, check the specified format and recipient. For an objective the game validates, record the confirmation or reason for rejection before closing the mission.']},
+  {name:['Modèle de journal de mission','Mission log template'],status:'reference',code:'Date et heure :\nVersion / branche :\nObjectif et rendu attendu :\nMachine d’origine :\nHôte indiqué dans le brief :\nObservation brute :\nInterprétation et degré de confiance :\nVérification ou question suivante :\nRésultat confirmé par le jeu :',codeEn:'Date and time:\nBuild / branch:\nObjective and expected deliverable:\nSource machine:\nHost from the brief:\nRaw observation:\nInterpretation and confidence:\nNext check or question:\nResult confirmed in-game:',desc:['Colle ce modèle dans les notes de mission pour garder ensemble le contexte, les constats et le résultat.','Paste this template into your mission notes to keep context, observations, and results together.']}
+];
+
+const services = [
+  {name:['SSH · 22/TCP','SSH · 22/TCP'],status:'reference',src:'iana',desc:['Accès à une session distante avec un compte prévu pour cet usage. Sur ton serveur de jeu, relève le port réellement configuré et l’hôte LAN associé. Un refus de connexion et un refus d’authentification correspondent à des étapes différentes.','Remote sessions using an account intended for that purpose. On your in-game server, record the configured port and corresponding LAN host. Connection refusal and authentication failure occur at different stages.']},
+  {name:['FTP · 21/TCP','FTP · 21/TCP'],status:'reference',src:'iana',desc:['Transfert de fichiers. Sur ton installation, distingue la connexion au service, l’accès au dossier et les droits sur le fichier. Note le chemin exact et le message affiché.','File transfer. On your own setup, distinguish service connection, directory access, and permissions on the file. Record the exact path and message.']},
+  {name:['HTTP / HTTPS · 80 / 443 TCP','HTTP / HTTPS · 80 / 443 TCP'],status:'reference',src:'iana',desc:['Publication Web. Dans le navigateur du jeu, sur ton site, compare le titre de la page, le port affiché et l’hôte attendu. Le support de TLS dans ta branche reste à confirmer.','Web publishing. In the in-game browser, on your own site, compare the page title, displayed port, and expected host. TLS support on your build is unconfirmed.']},
+  {name:['SMTP et messagerie · 25/TCP','SMTP and mail · 25/TCP'],status:'reference',src:'iana',desc:['SMTP désigne l’acheminement du courrier. Sépare la réception du brief dans Mail.exe, la connexion au compte et la livraison du message. Un échec à l’une de ces étapes ne suffit pas à diagnostiquer les autres.','SMTP refers to mail delivery. Treat receiving the brief in Mail.exe, account sign-in, and message delivery as separate stages. A failure at one stage does not identify the state of the others.']},
+  {name:['DNS · 53/TCP ou UDP','DNS · 53/TCP or UDP'],status:'reference',src:'iana',desc:['Associe des noms à des données réseau. Note le nom donné par le brief et l’adresse affichée par l’outil du jeu. Les capacités DNS configurables restent à vérifier dans ta branche.','Maps names to network data. Record the name from the brief and the address reported by the in-game tool. Configurable DNS capabilities depend on the build and remain to be checked.']},
+  {name:['SQL et annuaire Employees','SQL and Employees directory'],status:'pending',src:'current',desc:['Les notes de version mentionnent SQL. Si le jeu affiche « employees » ou 3306, consigne le libellé et l’état exacts. Vérifie l’association entre l’interface, le service et le port sur ton installation.','The release notes mention SQL. If the game shows “employees” or 3306, record the exact label and state. Verify how the interface, service, and port relate on your setup.']},
+  {name:['Dépôt de paquets','Package repository'],status:'verified',src:'services',desc:['Les notes développeur documentent le service de dépôt. Une panne de dépôt se diagnostique en relevant le nom du paquet, l’origine configurée et l’erreur de l’outil de gestion.','Developer notes document the repository service. To diagnose a repository issue, record the package name, configured source, and package manager error.']},
+  {name:['Chat · versions historiques','Chat · historical builds'],status:'verified',src:'current',desc:['La mise à jour publique 0.9.7374 a retiré le service serveur de chat. Les guildes disposent d’un canal privé dans le jeu.','Public update 0.9.7374 removed the chat server service. Guilds have an in-game private channel.']},
+  {name:['rshell · identification','rshell · identification'],status:'verified',src:'services',desc:['Mentionné dans les notes développeur. Si ce libellé apparaît dans ton inventaire, relève la branche, le port et l’état exacts.','Mentioned in the developer notes. If this label appears in your inventory, record the exact build, port, and state.']},
+  {name:['Service inconnu ou personnalisé','Unknown or custom service'],status:'reference',desc:['Conserve la sortie brute et l’identifiant de l’outil. Utilise la colonne service et le manuel de ta branche pour confirmer ce que le numéro de port suggère.','Keep the raw output and tool name. Use the service column and your build’s manual to confirm what the port number suggests.']}
+];
+
+// Même ordre que les fiches / Same order as the service cards.
+const serviceChecks = [
+  ['Essaie la connexion avec un compte de test que tu as créé. Consigne séparément la réponse du serveur, le résultat de l’authentification et les droits du compte.','Try connecting with a test account you created. Record the server response, authentication result, and account permissions separately.'],
+  ['Avec un compte de test, vérifie la lecture d’un fichier factice et confirme que les dossiers réservés aux autres comptes restent protégés.','With a test account, check that it can read a dummy file and that directories reserved for other accounts stay protected.'],
+  ['Ouvre une page de test dans le navigateur du jeu. Vérifie le document servi, puis assure-toi que seuls les fichiers destinés à la publication figurent dans le dossier Web.','Open a test page in the in-game browser. Verify the served document, then check that the web directory contains only files intended for publication.'],
+  ['Envoie un message entre deux comptes de test. Compare la confirmation d’envoi et la réception dans la boîte destinataire.','Send a message between two test accounts. Compare the sending confirmation and receipt in the destination inbox.'],
+  ['Résous le nom d’un serveur que tu contrôles avec l’outil de ta branche. Compare le résultat à l’adresse configurée et note l’heure du test.','Resolve a server name you control using the tool available on your build. Compare the result with the configured address and record the test time.'],
+  ['Utilise une base de test et un compte en lecture seule. Vérifie que ce compte voit les données prévues et que les zones réservées restent protégées.','Use a test database and a read-only account. Verify that the account sees the expected data and restricted areas stay protected.'],
+  ['Choisis un paquet de test connu et compare sa version affichée à celle que tu as publiée. Vérifie quel dépôt ton client utilise.','Pick a known test package and compare its reported version with the one you published. Check which repository the client is using.'],
+  ['Si ta branche le propose, vérifie le canal depuis l’interface de guilde et compare le résultat aux notes de version.','If available on your build, check the channel from the guild interface and compare the result with the release notes.'],
+  ['Vérifie si ce service est volontairement actif sur ton routeur. S’il est inutilisé, ferme sa redirection et vérifie le résultat depuis le côté WAN de ton installation.','Check whether this service is intentionally active on your router. If unused, close its forwarding rule and verify the result from the WAN side of your setup.'],
+  ['Relève le libellé, la version et l’origine du relevé. Vérifie l’identité depuis ton interface de configuration avant de modifier une règle.','Record the label, version, and observation source. Confirm the service identity in your configuration interface before changing a rule.']
+];
+const serviceGuides = [
+  {name:['Marketplace du jeu · HackShop','In-game marketplace · HackShop'],status:'verified',src:'shop',desc:['Les notes du développeur décrivent historiquement un catalogue qui distingue les bibliothèques et leurs versions. Le catalogue donne un contexte sur la compatibilité. L’interface et les règles de disponibilité peuvent varier selon la branche et la partie.','Developer notes historically describe a catalog that distinguishes libraries and versions. The catalog provides compatibility context. Its interface and availability rules may vary by build and game world.']},
+  {name:['Script, bibliothèque et inventaire','Scripts, libraries, and inventory'],status:'reference',desc:['Le service, sa version annoncée et la version de sa bibliothèque sont trois champs distincts. Un script d’inventaire local peut aider à tenir ces champs à jour sur tes serveurs de jeu. Renseigne la provenance de chaque valeur, puis consulte le manuel intégré pour comprendre les diagnostics liés à la version.','The service, its reported version, and its library version are three distinct fields. A local inventory script can help keep these fields current on your in-game servers. Record where each value came from and consult the in-game manual for version-related diagnostics.']}
+];
+
+const network = [
+  {name:['Reconnaissance du routeur','Router inventory'],status:'reference',desc:['Sur ton routeur de jeu, compare l’adresse publique, son adresse côté LAN et la table des redirections. Pour chaque entrée, note le port externe, l’hôte LAN, l’état et la version si elle est affichée. Date l’observation.','On your in-game router, compare its public address, LAN-side address, and forwarding table. For each entry, record the external port, LAN host, state, and version if shown. Timestamp the observation.']},
+  {name:['Lire les états affichés','Interpret displayed port states'],status:'reference',desc:['« Ouvert » décrit une réponse depuis un contexte donné. « Fermé » décrit le résultat du test à cet instant. « Filtré » ou « délai dépassé » appelle une vérification du chemin, des règles et de l’état du service sur ton installation.','“Open” describes a response from a given vantage point. “Closed” describes the test result at that moment. “Filtered” or “timed out” calls for checking the path, rules, and service status on your setup.']},
+  {name:['Pivots et point d’observation','Pivots and vantage points'],status:'reference',desc:['Un pivot change l’endroit depuis lequel on observe le réseau. Pour comprendre ce principe sur ton installation de jeu, compare deux postes que tu contrôles, l’un côté WAN et l’autre côté LAN. Note ce que chacun voit et associe chaque résultat à son origine.','A pivot changes where you observe the network from. To understand the concept on your game setup, compare two machines you control, one on the WAN side and one on the LAN. Record what each sees and attach each result to its source.']},
+  {name:['Exemple de divergence','Example discrepancy'],status:'reference',desc:['Le brief mentionne 192.168.1.5, tandis qu’une redirection observée indique 192.168.0.2. Inscris les deux adresses dans des lignes distinctes. Vérifie la configuration et le contexte du relevé avant de conclure qu’elles appartiennent au même LAN.','The brief lists 192.168.1.5, while an observed forward points to 192.168.0.2. Record the addresses on separate lines. Verify the configuration and vantage point before concluding they are on the same LAN.']}
+];
+
+const diagnostics = [
+  [['Connection refused · connexion refusée','Connection refused'],['Sur ton serveur de jeu, vérifie d’abord que le service tourne et que le port et l’hôte configurés correspondent à ton relevé.','On your in-game server, first check that the service is running and the configured host and port match your observation.']],
+  [['Timeout · délai dépassé','Timeout'],['Note l’origine du test, puis vérifie la connectivité et les règles de ton routeur. Garde l’heure pour comparer les essais.','Record the test origin, then check connectivity and your router rules. Keep the timestamp so you can compare attempts.']],
+  [['Permission denied · accès refusé','Permission denied'],['Note le compte, le chemin et l’action demandée. Consulte les droits du fichier et de son dossier parent sur ta machine de jeu.','Record the account, path, and requested action. Check permissions on the file and its parent directory on your game machine.']],
+  [['Command not found · commande introuvable','Command not found'],['Vérifie la casse, le nom exact, l’installation du programme et son entrée dans le manuel intégré.','Verify letter case, exact program name, installation, and its entry in the in-game manual.']],
+  [['Key Not Found · clé introuvable','Key Not Found'],['Dans un script, repère la ligne qui lit la clé et inspecte les clés présentes dans tes données. Dans une application, consigne le message complet et l’étape précise pour identifier son origine.','In a script, find the line that reads the key and inspect the keys in your data. In an application, record the complete message and exact step to identify where it came from.']],
+  [['Compilation GreyScript','GreyScript compilation'],['Corrige la première erreur avec le numéro de ligne. Vérifie les guillemets et la fermeture de chaque bloc, puis isole l’appel dans un petit script local.','Fix the first error using its line number. Check quotes and block endings, then isolate the call in a small local script.']],
+  [['Objet null ou type inattendu','Null or unexpected type'],['Vérifie le résultat d’un appel avant d’en lire une propriété. Consigne l’appel concerné, le type obtenu et le numéro de version.','Check a call’s result before reading a property. Record the call, returned type, and game build.']],
+  [['Bibliothèque indisponible','Library unavailable'],['Relève le nom de fichier, l’emplacement et la version. Compare avec le manuel intégré et avec une installation fonctionnelle de la même branche.','Record the filename, location, and version. Compare with the in-game manual and a working installation on the same branch.']],
+  [['Hôte inattendu','Unexpected host'],['Relis séparément l’adresse publique, l’adresse du routeur côté LAN et l’adresse du serveur. Reprends l’énoncé de la mission si une adresse manque.','Read the public address, LAN-side router address, and server address separately. Check the mission brief again if an address is missing.']]
+];
+
+const $ = (id) => document.getElementById(id);
+const storageKey = 'grey-hack-handbook-v1';
+const stepIds = steps.map(([id]) => id);
+const navigation = ['setup','missions','checklist','commands','services','network','diagnostics','sources'];
+const newId = () => globalThis.crypto?.randomUUID?.() ?? Date.now() + '-' + Math.random().toString(36).slice(2);
+const newMission = () => ({id:newId(), values:{}, done:[]});
+
+function isRecord(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function validateNotebook(value) {
+  if (!isRecord(value) || value.version !== 1 || !Array.isArray(value.missions) || !value.missions.length) {
+    throw new Error('Invalid notebook');
+  }
+  const ids = new Set();
+  const missions = value.missions.map((mission) => {
+    if (!isRecord(mission) || typeof mission.id !== 'string' || !mission.id || ids.has(mission.id) ||
+        !isRecord(mission.values) || !Array.isArray(mission.done)) {
+      throw new Error('Invalid mission');
+    }
+    ids.add(mission.id);
+    const values = {};
+    for (const [key] of fields) {
+      if (typeof mission.values[key] === 'string') values[key] = mission.values[key];
+    }
+    const done = stepIds.filter((id) => mission.done.includes(id));
+    return {id:mission.id, values, done};
+  });
+  return {
+    version:1,
+    lang:value.lang === 'en' ? 'en' : 'fr',
+    active:ids.has(value.active) ? value.active : missions[0].id,
+    missions
+  };
+}
+
+function loadNotebook() {
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (saved) return validateNotebook(JSON.parse(saved));
+  } catch {}
+  const mission = newMission();
+  return {version:1, lang:'fr', active:mission.id, missions:[mission]};
+}
+
+const notebook = loadNotebook();
+const local = (pair) => pair[notebook.lang === 'en' ? 1 : 0];
+const t = (key) => local(ui[key]);
+const currentMission = () => notebook.missions.find((mission) => mission.id === notebook.active);
+const normalize = (value) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+function make(tag, label = '', className = '') {
+  const element = document.createElement(tag);
+  if (label) element.textContent = label;
+  if (className) element.className = className;
+  return element;
+}
+
+function save(message = 'saved') {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(notebook));
+    $('status').textContent = t(message);
+  } catch {
+    $('status').textContent = t('unsaved');
+  }
+}
+
+function buildFields() {
+  const mission = currentMission();
+  const controls = fields.map(([key, name, rows]) => {
+    const wrapper = make('label', '', rows ? 'field wide' : 'field');
+    const control = make(rows ? 'textarea' : 'input');
+    if (rows) control.rows = rows;
+    else control.type = 'text';
+    control.id = 'field-' + key;
+    control.value = mission.values[key] ?? '';
+    control.addEventListener('input', () => {
+      mission.values[key] = control.value;
+      if (key === 'title') $('mission-picker').selectedOptions[0].textContent = missionName(mission);
+      save();
+    });
+    wrapper.append(make('span', local(name)), control);
+    return wrapper;
+  });
+  $('fields').replaceChildren(...controls);
+}
+
+const missionName = (mission) => mission.values.title?.trim() || t('untitled');
+
+function updateProgress() {
+  const done = currentMission().done.length;
+  $('progress').max = steps.length;
+  $('progress').value = done;
+  $('progress-value').textContent = done + ' / ' + steps.length;
+}
+
+function renderMission() {
+  const picker = $('mission-picker');
+  picker.replaceChildren(...notebook.missions.map((mission) => {
+    const option = make('option', missionName(mission));
+    option.value = mission.id;
+    return option;
+  }));
+  picker.value = notebook.active;
+  buildFields();
+  const mission = currentMission();
+  $('steps').replaceChildren(...steps.map(([id, title, detail]) => {
+    const label = make('label', '', 'step');
+    const input = make('input');
+    input.type = 'checkbox';
+    input.checked = mission.done.includes(id);
+    input.addEventListener('change', () => {
+      if (input.checked) mission.done.push(id);
+      else mission.done = mission.done.filter((item) => item !== id);
+      updateProgress();
+      save();
+    });
+    const body = make('span');
+    body.append(make('strong', local(title)), make('small', local(detail)));
+    label.append(input, body);
+    return label;
+  }));
+  updateProgress();
+}
+
+function link(text, url) {
+  const anchor = make('a', text);
+  anchor.href = url;
+  return anchor;
+}
+
+async function copyCode(code, codeElement, status) {
+  try {
+    await navigator.clipboard.writeText(code);
+    status.textContent = t('copied');
+  } catch {
+    const range = document.createRange();
+    range.selectNodeContents(codeElement);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    status.textContent = t('copyHelp');
+  }
+}
+
+function buildCard(card) {
+  const article = make('article', '', 'card');
+  article.dataset.search = normalize([...card.name, ...card.desc, ...ui[card.status], ...(card.next ?? []), card.code, card.codeEn].join(' '));
+  article.append(make('span', t(card.status), 'tag ' + card.status), make('h3', local(card.name)), make('p', local(card.desc)));
+  if (card.next) {
+    const next = make('p', '', 'next');
+    next.append(make('strong', t('next')), document.createTextNode(local(card.next)));
+    article.append(next);
+  }
+  const code = notebook.lang === 'en' ? card.codeEn ?? card.code : card.code;
+  if (code) {
+    const pre = make('pre');
+    const content = make('code', code);
+    const button = make('button', t('copy'), 'copy');
+    button.type = 'button';
+    const feedback = make('span', '', 'help');
+    feedback.setAttribute('role','status');
+    button.addEventListener('click', () => copyCode(code, content, feedback));
+    pre.append(content);
+    article.append(pre, button, document.createTextNode(' '), feedback);
+  }
+  if (card.src) {
+    const footer = make('footer');
+    const [name, url] = sources[card.src];
+    footer.append(link(name, url));
+    article.append(footer);
+  }
+  return article;
+}
+
+function renderLibrary() {
+  const serviceCards = services.map((card, index) => ({...card, next:serviceChecks[index]}));
+  for (const [id, cards] of [['setup-cards',setup],['command-cards',commands],['service-cards',serviceCards],['service-guides',serviceGuides],['network-cards',network]]) {
+    $(id).replaceChildren(...cards.map(buildCard));
+  }
+  const nodes = [['Côté WAN','WAN side'],['Routeur du jeu','In-game router'],['Hôte LAN','LAN host']];
+  $('topology').replaceChildren(...nodes.flatMap((name, index) => {
+    const node = make('span', local(name), 'node');
+    return index ? [make('span', '→', 'arrow'), node] : [node];
+  }));
+  $('topology').setAttribute('aria-label', nodes.map(local).join(' → '));
+  $('diagnostic-cards').replaceChildren(...diagnostics.map(([name, detail]) => {
+    const item = make('details');
+    item.dataset.search = normalize([...name, ...detail].join(' '));
+    item.append(make('summary', local(name)), make('p', local(detail)));
+    return item;
+  }));
+  $('legend').replaceChildren(...['verified','pending','reference'].map((status) => make('span',t(status),'tag ' + status)));
+  $('source-list').replaceChildren(...Object.values(sources).map(([name, url, detail]) => {
+    const item = make('li');
+    item.dataset.search = normalize([name, ...detail].join(' '));
+    item.append(link(name,url), document.createTextNode(' · ' + local(detail)));
+    return item;
+  }));
+}
+
+function filterLibrary() {
+  const terms = normalize($('search').value.trim()).split(/\s+/).filter(Boolean);
+  let count = 0;
+  for (const section of document.querySelectorAll('.library')) {
+    let visible = 0;
+    const heading = section.querySelector('.heading').textContent;
+    const headingIndex = normalize(heading + ' ' + ui[section.id].join(' '));
+    for (const item of section.querySelectorAll('[data-search]')) {
+      item.hidden = terms.some((term) => !item.dataset.search.includes(term) && !headingIndex.includes(term));
+      if (!item.hidden) visible++;
+    }
+    section.hidden = !visible;
+    count += visible;
+    $('nav').querySelector('[href="#' + section.id + '"]').hidden = !visible;
+  }
+  $('matches').hidden = !terms.length;
+  $('matches').textContent = count ? count + ' ' + t(count === 1 ? 'result' : 'results') : t('empty');
+}
+
+function renderLanguage() {
+  document.documentElement.lang = notebook.lang;
+  document.title = t('title');
+  const language = $('language');
+  language.lang = notebook.lang === 'fr' ? 'en' : 'fr';
+  language.textContent = notebook.lang === 'fr' ? 'English (EN)' : 'Français (FR)';
+  document.querySelectorAll('[data-i]').forEach((element) => {element.textContent = t(element.dataset.i);});
+  document.querySelectorAll('[data-ph]').forEach((element) => {element.placeholder = t(element.dataset.ph);});
+  document.querySelectorAll('[data-aria]').forEach((element) => {element.setAttribute('aria-label', t(element.dataset.aria));});
+  $('nav').replaceChildren(...navigation.map((id) => link(t(id), '#' + id)));
+  renderMission();
+  renderLibrary();
+  filterLibrary();
+}
+
+$('language').addEventListener('click', () => {
+  notebook.lang = notebook.lang === 'fr' ? 'en' : 'fr';
+  renderLanguage();
+  save();
+});
+$('search').addEventListener('input', filterLibrary);
+$('mission-picker').addEventListener('change', (event) => {
+  notebook.active = event.target.value;
+  renderMission();
+  save();
+});
+$('add').addEventListener('click', () => {
+  const mission = newMission();
+  notebook.missions.push(mission);
+  notebook.active = mission.id;
+  renderMission();
+  save();
+  $('field-title').focus();
+});
+$('remove').addEventListener('click', () => {
+  if (!window.confirm(t('confirm'))) return;
+  const index = notebook.missions.findIndex((mission) => mission.id === notebook.active);
+  notebook.missions.splice(index, 1);
+  if (!notebook.missions.length) notebook.missions.push(newMission());
+  notebook.active = notebook.missions[Math.min(index, notebook.missions.length - 1)].id;
+  renderMission();
+  save();
+  $('mission-picker').focus();
+});
+$('export').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(notebook, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const download = link('', url);
+  download.download = 'grey-hack-missions.json';
+  document.body.append(download);
+  download.click();
+  download.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+$('import').addEventListener('click', () => $('import-file').click());
+$('import-file').addEventListener('change', async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  try {
+    const incoming = validateNotebook(JSON.parse(await file.text()));
+    const copies = incoming.missions.map((mission) => ({...mission,id:newId()}));
+    const initial = notebook.missions[0];
+    if (notebook.missions.length === 1 && !initial.done.length && !Object.values(initial.values).some(Boolean)) {
+      notebook.missions = [];
+    }
+    notebook.missions.push(...copies);
+    notebook.active = copies[incoming.missions.findIndex((mission) => mission.id === incoming.active)].id;
+    renderMission();
+    save('imported');
+  } catch {
+    $('status').textContent = t('importError');
+  } finally {
+    event.target.value = '';
+  }
+});
+
+renderLanguage();
+save();
+</script>
+</body>
+</html>
