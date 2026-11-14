@@ -25,7 +25,7 @@ article.card{border:1px solid var(--border);border-radius:.65rem;padding:.95rem;
 pre{margin:.7rem 0;padding:.75rem;border-radius:.45rem;background:#0e1014;overflow:auto;color:var(--green);font-size:.88rem;tab-size:4}.card .copy{font-size:.84rem;padding:.35rem .55rem;margin-bottom:.6rem}.card footer{color:var(--muted);font-size:.8rem;margin-top:.6rem}.topology{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;margin:.8rem 0}.node{padding:.5rem .65rem;border:1px solid var(--border);border-radius:.45rem;background:var(--raised);font-weight:600}.arrow{color:var(--green)}
 details{padding:.6rem 0;border-bottom:1px solid var(--border)}details:last-child{border-bottom:0}summary{cursor:pointer;font-weight:650}details p{margin:.5rem 0 .2rem}.status-bar{font-size:.85rem;min-height:1.5em;margin:.6rem 0 0;color:var(--muted)}[hidden]{display:none!important}
 @media(max-width:880px){.layout{grid-template-columns:1fr;gap:1rem}.rail{position:static}.rail nav{display:flex;flex-wrap:wrap}.rail input{margin-bottom:.35rem}.rail a{padding:.35rem .48rem}}@media(max-width:550px){.split,.grid{grid-template-columns:1fr}.wide{grid-column:auto}.hero{border-radius:.7rem}.panel{border-radius:.7rem}}
-.service-guides{margin-top:1rem}.card .next{border-top:1px solid var(--border);padding-top:.65rem;margin-top:.7rem}.next strong{display:block;color:var(--ink)}
+.service-guides{margin-top:1rem}.service-details{margin:.75rem 0 0;border-top:1px solid var(--border);padding-top:.6rem;font-size:.93rem}.service-details ol{padding-left:1.35rem;margin:.5rem 0 .85rem}.service-details li+li{margin-top:.38rem}.service-details p{margin:.25rem 0 0}
 </style>
 </head>
 <body>
@@ -117,8 +117,9 @@ const ui = {
   commands:['Commandes et GreyScript','Commands and GreyScript'],
   commandsIntro:['Exemples à copier dans le terminal ou le CodeEditor du jeu. Le manuel intégré fait référence pour ta version.','Copy examples into the in-game terminal or CodeEditor. The in-game manual is the reference for your build.'],
   services:['Fiches par service','Service reference'],
-  next:['Prochaine étape sur ton installation','Next step on your own setup'],
-  servicesIntro:['Relève le nom du service, le port observé, l’état et la version affichée. Les numéros ci-dessous sont des repères usuels.','Record the service name, observed port, state, and reported version. The numbers below are common defaults.'],
+  next:['Que vérifier dans Grey Hack','What to check in Grey Hack'],
+  finding:['Écart à consigner','What to flag'],
+  servicesIntro:['Repère le libellé affiché par le jeu et le port externe. Sur ton installation de test, applique les contrôles dans l’ordre et compare le résultat au comportement attendu.','Start with the label shown by the game and the external port. On your test setup, follow the checks in order and compare the result with the expected behavior.'],
   network:['Routeur et contexte réseau','Router and network context'],
   networkIntro:['Lis une topologie typique et examine les écarts entre le brief et tes observations.','Read a typical topology and investigate differences between the brief and your observations.'],
   diagnostics:['Diagnostics','Troubleshooting'],
@@ -165,7 +166,8 @@ const sources = {
   script:['Grey Hack · Notes GreyScript / GreyScript notes','https://store.steampowered.com/oldnews/?appgroupname=Grey+Hack&appids=605230&feed=steam_community_announcements',['Historique des fonctions print et user_input.','History of the print and user_input functions.']],
   meta:['Grey Hack · Notes Metaxploit / Metaxploit notes','https://store.steampowered.com/news/posts/?appids=605230&enddate=1564362073',['Mention des messages de compatibilité de la bibliothèque.','Documents compatibility messages for the library.']],
   shop:['Grey Hack · Nightly v0.7.2511a','https://store.steampowered.com/news/posts/?appids=605230&enddate=1568778390',['Documentation historique du catalogue HackShop et de ses métadonnées de compatibilité.','Historical documentation of the HackShop catalog and its compatibility metadata.']],
-  iana:['IANA · Service Name and Port Number Registry','https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml',['Ports usuels des protocoles réseau.','Standard network protocol port assignments.']],
+  forwarding:['Grey Hack · Port Forwarding (Steam Community)','https://steamcommunity.com/app/605230/discussions/1/6892266032691345649/',['Retour joueur sur le libellé « Unknown » lors de la configuration d’une redirection.','Player report about the “Unknown” label while configuring a forwarding rule.']],
+  webSetup:['Grey Hack · Creating a website (Steam Community)','https://steamcommunity.com/app/605230/discussions/1/840627927552920718/',['Discussion de joueurs sur la mise en ligne d’un site de jeu et sa redirection.','Player discussion of hosting an in-game website and configuring forwarding.']],
   mini:['MiniScript · Language reference','https://miniscript.org/',['Langage dont GreyScript est dérivé. Voir le manuel du jeu pour les extensions GreyScript.','The language GreyScript derives from. See the in-game manual for GreyScript extensions.']],
   github:['GitHub Docs · Creating a GitHub Pages site','https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site',['Publication de index.html à la racine de la source choisie.','Publishing index.html from the root of the selected source.']]
 };
@@ -193,31 +195,100 @@ const setup = [
   {name:['Modèle de journal de mission','Mission log template'],status:'reference',code:'Date et heure :\nVersion / branche :\nObjectif et rendu attendu :\nMachine d’origine :\nHôte indiqué dans le brief :\nObservation brute :\nInterprétation et degré de confiance :\nVérification ou question suivante :\nRésultat confirmé par le jeu :',codeEn:'Date and time:\nBuild / branch:\nObjective and expected deliverable:\nSource machine:\nHost from the brief:\nRaw observation:\nInterpretation and confidence:\nNext check or question:\nResult confirmed in-game:',desc:['Colle ce modèle dans les notes de mission pour garder ensemble le contexte, les constats et le résultat.','Paste this template into your mission notes to keep context, observations, and results together.']}
 ];
 
+// Chaque fiche donne les contrôles dans l’ordre et le résultat à signaler.
 const services = [
-  {name:['SSH · 22/TCP','SSH · 22/TCP'],status:'reference',src:'iana',desc:['Accès à une session distante avec un compte prévu pour cet usage. Sur ton serveur de jeu, relève le port réellement configuré et l’hôte LAN associé. Un refus de connexion et un refus d’authentification correspondent à des étapes différentes.','Remote sessions using an account intended for that purpose. On your in-game server, record the configured port and corresponding LAN host. Connection refusal and authentication failure occur at different stages.']},
-  {name:['FTP · 21/TCP','FTP · 21/TCP'],status:'reference',src:'iana',desc:['Transfert de fichiers. Sur ton installation, distingue la connexion au service, l’accès au dossier et les droits sur le fichier. Note le chemin exact et le message affiché.','File transfer. On your own setup, distinguish service connection, directory access, and permissions on the file. Record the exact path and message.']},
-  {name:['HTTP / HTTPS · 80 / 443 TCP','HTTP / HTTPS · 80 / 443 TCP'],status:'reference',src:'iana',desc:['Publication Web. Dans le navigateur du jeu, sur ton site, compare le titre de la page, le port affiché et l’hôte attendu. Le support de TLS dans ta branche reste à confirmer.','Web publishing. In the in-game browser, on your own site, compare the page title, displayed port, and expected host. TLS support on your build is unconfirmed.']},
-  {name:['SMTP et messagerie · 25/TCP','SMTP and mail · 25/TCP'],status:'reference',src:'iana',desc:['SMTP désigne l’acheminement du courrier. Sépare la réception du brief dans Mail.exe, la connexion au compte et la livraison du message. Un échec à l’une de ces étapes ne suffit pas à diagnostiquer les autres.','SMTP refers to mail delivery. Treat receiving the brief in Mail.exe, account sign-in, and message delivery as separate stages. A failure at one stage does not identify the state of the others.']},
-  {name:['DNS · 53/TCP ou UDP','DNS · 53/TCP or UDP'],status:'reference',src:'iana',desc:['Associe des noms à des données réseau. Note le nom donné par le brief et l’adresse affichée par l’outil du jeu. Les capacités DNS configurables restent à vérifier dans ta branche.','Maps names to network data. Record the name from the brief and the address reported by the in-game tool. Configurable DNS capabilities depend on the build and remain to be checked.']},
-  {name:['SQL et annuaire Employees','SQL and Employees directory'],status:'pending',src:'current',desc:['Les notes de version mentionnent SQL. Si le jeu affiche « employees » ou 3306, consigne le libellé et l’état exacts. Vérifie l’association entre l’interface, le service et le port sur ton installation.','The release notes mention SQL. If the game shows “employees” or 3306, record the exact label and state. Verify how the interface, service, and port relate on your setup.']},
-  {name:['Dépôt de paquets','Package repository'],status:'verified',src:'services',desc:['Les notes développeur documentent le service de dépôt. Une panne de dépôt se diagnostique en relevant le nom du paquet, l’origine configurée et l’erreur de l’outil de gestion.','Developer notes document the repository service. To diagnose a repository issue, record the package name, configured source, and package manager error.']},
-  {name:['Chat · versions historiques','Chat · historical builds'],status:'verified',src:'current',desc:['La mise à jour publique 0.9.7374 a retiré le service serveur de chat. Les guildes disposent d’un canal privé dans le jeu.','Public update 0.9.7374 removed the chat server service. Guilds have an in-game private channel.']},
-  {name:['rshell · identification','rshell · identification'],status:'verified',src:'services',desc:['Mentionné dans les notes développeur. Si ce libellé apparaît dans ton inventaire, relève la branche, le port et l’état exacts.','Mentioned in the developer notes. If this label appears in your inventory, record the exact build, port, and state.']},
-  {name:['Service inconnu ou personnalisé','Unknown or custom service'],status:'reference',desc:['Conserve la sortie brute et l’identifiant de l’outil. Utilise la colonne service et le manuel de ta branche pour confirmer ce que le numéro de port suggère.','Keep the raw output and tool name. Use the service column and your build’s manual to confirm what the port number suggests.']}
-];
-
-// Même ordre que les fiches / Same order as the service cards.
-const serviceChecks = [
-  ['Essaie la connexion avec un compte de test que tu as créé. Consigne séparément la réponse du serveur, le résultat de l’authentification et les droits du compte.','Try connecting with a test account you created. Record the server response, authentication result, and account permissions separately.'],
-  ['Avec un compte de test, vérifie la lecture d’un fichier factice et confirme que les dossiers réservés aux autres comptes restent protégés.','With a test account, check that it can read a dummy file and that directories reserved for other accounts stay protected.'],
-  ['Ouvre une page de test dans le navigateur du jeu. Vérifie le document servi, puis assure-toi que seuls les fichiers destinés à la publication figurent dans le dossier Web.','Open a test page in the in-game browser. Verify the served document, then check that the web directory contains only files intended for publication.'],
-  ['Envoie un message entre deux comptes de test. Compare la confirmation d’envoi et la réception dans la boîte destinataire.','Send a message between two test accounts. Compare the sending confirmation and receipt in the destination inbox.'],
-  ['Résous le nom d’un serveur que tu contrôles avec l’outil de ta branche. Compare le résultat à l’adresse configurée et note l’heure du test.','Resolve a server name you control using the tool available on your build. Compare the result with the configured address and record the test time.'],
-  ['Utilise une base de test et un compte en lecture seule. Vérifie que ce compte voit les données prévues et que les zones réservées restent protégées.','Use a test database and a read-only account. Verify that the account sees the expected data and restricted areas stay protected.'],
-  ['Choisis un paquet de test connu et compare sa version affichée à celle que tu as publiée. Vérifie quel dépôt ton client utilise.','Pick a known test package and compare its reported version with the one you published. Check which repository the client is using.'],
-  ['Si ta branche le propose, vérifie le canal depuis l’interface de guilde et compare le résultat aux notes de version.','If available on your build, check the channel from the guild interface and compare the result with the release notes.'],
-  ['Vérifie si ce service est volontairement actif sur ton routeur. S’il est inutilisé, ferme sa redirection et vérifie le résultat depuis le côté WAN de ton installation.','Check whether this service is intentionally active on your router. If unused, close its forwarding rule and verify the result from the WAN side of your setup.'],
-  ['Relève le libellé, la version et l’origine du relevé. Vérifie l’identité depuis ton interface de configuration avant de modifier une règle.','Record the label, version, and observation source. Confirm the service identity in your configuration interface before changing a rule.']
+  {
+    name:['SSH · souvent 22/TCP','SSH · commonly 22/TCP'],status:'reference',
+    desc:['Un service SSH ouvert peut accepter une session distante avec un compte prévu pour cet usage. Relève le port externe et le serveur LAN indiqué.','An open SSH service may accept a remote session with an account intended for that purpose. Record the external port and reported LAN server.'],
+    checks:[
+      ['Sur ton routeur de jeu, ouvre ConfigLan ou l’interface de configuration de ta branche et compare l’hôte LAN de la redirection avec ton serveur SSH.','On your in-game router, open ConfigLan or your build’s configuration interface and compare the forwarding destination with your SSH server.'],
+      ['Depuis un autre poste de jeu que tu contrôles, utilise la commande SSH du manuel intégré avec le port observé et ton compte de test. Si la connexion est refusée avant l’identification, vérifie que le service tourne et que la redirection pointe toujours vers ce serveur.','From another in-game machine you control, use the SSH command in the in-game manual with the observed port and your test account. If the connection fails before sign-in, check that the service is running and the forward still points to that server.'],
+      ['Une fois connecté, lance whoami et pwd. Compare le compte et le répertoire obtenus avec ceux du compte de test.','After signing in, run whoami and pwd. Compare the reported account and directory with the test account’s expected context.']
+    ],
+    finding:['Le compte de test reçoit des droits d’administration imprévus, ou une redirection expose un serveur que tu pensais garder sur le LAN. Un port ouvert seul ne confirme aucune faille.','Flag a test account with unexpected administrator privileges or a forward exposing a server you intended to keep on the LAN. An open port alone establishes no vulnerability.']
+  },
+  {
+    name:['FTP · souvent 21/TCP','FTP · commonly 21/TCP'],status:'reference',
+    desc:['Prépare sur ton serveur un fichier factice publiable et un dossier factice réservé à un autre compte.','On your server, prepare one dummy file intended for sharing and one dummy directory reserved for a different account.'],
+    checks:[
+      ['Ouvre le client FTP du jeu avec ton compte de test et le port réellement configuré. Distingue un problème de connexion d’un refus d’identification.','Open the in-game FTP client with your test account and the configured port. Distinguish a connection failure from a sign-in rejection.'],
+      ['Vérifie que le fichier publiable apparaît puis qu’il est lisible. Compare ensuite les droits affichés pour le dossier réservé depuis l’interface de ton serveur.','Check that the shared test file is listed and readable. Then compare the permissions shown for the restricted directory in your server interface.']
+    ],
+    finding:['Le partage accorde l’écriture à un compte prévu en lecture seule ou expose un dossier qui devait rester privé.','Flag a share that grants write access to a read-only account or exposes a directory intended to stay private.']
+  },
+  {
+    name:['HTTP · souvent 80/TCP','HTTP · commonly 80/TCP'],status:'reference',
+    desc:['Utilise Browser.exe pour vérifier le service Web de ton installation. Une page qui s’affiche confirme que le serveur Web répond à cette adresse.','Use Browser.exe to check the web service on your setup. A rendered page confirms that the web server responds at that address.'],
+    checks:[
+      ['Place une page de test reconnaissable dans le dossier de publication configuré. Depuis un autre poste de ton réseau de jeu, ouvre l’adresse et le port configurés.','Place an identifiable test page in the configured web root. From another machine on your game network, open the configured address and port.'],
+      ['Si tu vois la mauvaise page, compare le document servi, le dossier de publication et la destination LAN de la redirection. Si le serveur ne répond pas depuis le WAN, compare avec un essai depuis ton LAN.','If you see the wrong page, compare the served document, web root, and LAN forwarding destination. If the server does not respond from the WAN, compare with a test from your LAN.'],
+      ['Si le jeu affiche HTTPS ou 443, relève le libellé et vérifie le support TLS dans le manuel de ta branche.','If the game reports HTTPS or 443, record the label and check TLS support in your build’s manual.']
+    ],
+    finding:['Un fichier de sauvegarde ou de configuration figure dans le dossier publié, ou le port externe affiche le site d’un autre serveur.','Flag a backup or configuration file in the published directory, or an external port serving a different host’s website.']
+  },
+  {
+    name:['SMTP et messagerie · souvent 25/TCP','SMTP and mail · commonly 25/TCP'],status:'reference',
+    desc:['Dans Mail.exe, distingue ouverture de session, envoi et livraison.','In Mail.exe, separate sign-in, sending, and delivery.'],
+    checks:[
+      ['Envoie un court message factice depuis un compte de test vers un second compte que tu contrôles. Note l’heure et le résultat de chaque étape.','Send a short dummy message from one test account to another account you control. Record the time and result at each stage.'],
+      ['Si le compte est refusé, vérifie son état dans l’interface prévue. Si seul l’envoi échoue, recopie l’adresse et le message exact puis regarde si la boîte destinataire reçoit d’autres messages de test.','If sign-in is refused, check the account’s status in its management interface. If only sending fails, record the address and exact message, then check whether the destination inbox receives other test messages.']
+    ],
+    finding:['Un compte que tu as désactivé continue à envoyer des messages de test, ou un message arrive dans la mauvaise boîte.','Flag a disabled test account that can still send messages or a message delivered to the wrong inbox.']
+  },
+  {
+    name:['DNS · souvent 53/TCP ou UDP','DNS · commonly 53/TCP or UDP'],status:'pending',
+    desc:['La disponibilité des outils de résolution dans Grey Hack dépend de la branche. Vérifie l’entrée du manuel pour l’outil installé.','Available name resolution tools in Grey Hack depend on the build. Check the manual entry for the installed tool.'],
+    checks:[
+      ['Sur ton installation, prends un nom de test dont tu connais l’adresse et note la valeur de référence.','On your setup, choose a test hostname whose address you already know and record the expected value.'],
+      ['Résous le nom avec l’outil du jeu. Si l’adresse diverge, compare le nom exact et la configuration, puis vérifie si le même résultat apparaît depuis un second poste que tu contrôles.','Resolve the name with the in-game tool. If the address differs, compare the exact name and configuration, then check whether a second machine you control sees the same result.']
+    ],
+    finding:['Un nom que tu gères renvoie une adresse inattendue de façon reproductible. Indique la branche et les deux relevés.','Flag a hostname you manage that repeatedly returns an unexpected address. Include the build and both observations.']
+  },
+  {
+    name:['SQL / Employees · parfois 3306','SQL / Employees · sometimes 3306'],status:'pending',
+    desc:['Relève le libellé exact affiché. Les notes du jeu mentionnent SQL et l’interface Employees, dont le comportement peut dépendre de la version.','Record the exact label shown. The release notes mention SQL and the Employees interface, whose behavior may vary by build.'],
+    checks:[
+      ['Dans une base de test à toi, crée des données factices et un compte à droits limités. Définis les lignes ou actions auxquelles il doit avoir accès.','In your own test database, create dummy data and a restricted account. Define which records or actions it should be allowed to access.'],
+      ['Dans le client prévu par ton installation, confirme les opérations autorisées. Compare ensuite les droits configurés avec le résultat affiché et isole la différence avant de changer les permissions.','In the client used by your setup, confirm the expected operations work. Compare configured privileges with the displayed result and isolate the discrepancy before changing permissions.']
+    ],
+    finding:['L’interface retourne des données d’un autre compte de test ou autorise une modification à un compte prévu en lecture seule.','Flag an interface that returns another test account’s data or allows an intended read-only account to make changes.']
+  },
+  {
+    name:['Dépôt de paquets','Package repository'],status:'reference',
+    desc:['Vérifie la source utilisée par le client de jeu avant de comparer les versions d’un paquet.','Check which source the in-game client is using before comparing package versions.'],
+    checks:[
+      ['Note l’adresse du dépôt et la version d’un paquet factice que tu as publié.','Record the repository address and the version of a dummy package you published.'],
+      ['Rafraîchis la liste des paquets dans ton client. Compare le nom, la version et l’origine avec la publication attendue. Si un paquet manque, compare l’adresse configurée et le message du client.','Refresh the package list in your client. Compare name, version, and origin with the expected release. If it is missing, compare the configured address and the client message.']
+    ],
+    finding:['Le paquet annoncé vient d’une autre source ou garde une version inattendue après rafraîchissement.','Flag a package listed from another source or still showing an unexpected version after refresh.']
+  },
+  {
+    name:['Chat · branches historiques','Chat · historical builds'],status:'verified',
+    desc:['La branche publique 0.9.7374 a supprimé le service serveur de chat et utilise des canaux de guilde.','Public build 0.9.7374 removed the chat server service and uses guild channels.'],
+    checks:[
+      ['Si ton relevé indique chat, note le numéro de version, l’origine du relevé et sa date. Rafraîchis l’affichage dans le jeu avant d’interpréter une ancienne ligne.','If your inventory says chat, record the build number, observation source, and date. Refresh the in-game view before interpreting an old entry.'],
+      ['Pour tester la messagerie de guilde, vérifie dans l’interface qu’un membre de test voit le bon canal.','To test guild messaging, verify in the interface that a test member sees the correct channel.']
+    ],
+    finding:['Une entrée chat persiste sur la branche publique après actualisation. Documente-la comme divergence de version ou de configuration.','Flag a chat entry that persists on the public build after refreshing. Document it as a build or configuration discrepancy.']
+  },
+  {
+    name:['rshell · accès distant','rshell · remote access'],status:'reference',
+    desc:['Un service rshell est mentionné dans les notes officielles du jeu. Sur ton réseau, vérifie s’il fait partie de ta configuration prévue.','Official game notes mention an rshell service. On your network, check whether it is part of your intended configuration.'],
+    checks:[
+      ['Compare l’entrée vue dans le jeu à l’interface de ton routeur et à la liste des services actifs du serveur que tu gères.','Compare the in-game entry with your router interface and the active service list on the server you administer.'],
+      ['Si cette exposition est involontaire, ferme la redirection sur ton installation et compare un relevé avant et après depuis un poste de test.','If the exposure is unintended, close the forwarding rule on your setup and compare observations before and after from a test machine.']
+    ],
+    finding:['Une redirection d’accès distant reste ouverte alors que ton plan réseau la prévoit fermée.','Flag a remote-access forward that is open although your network plan calls for it to be closed.']
+  },
+  {
+    name:['Service inconnu ou port personnalisé','Unknown service or custom port'],status:'reference',
+    desc:['Consigne le port externe et le libellé « unknown » ou le nom personnalisé.','Record the external port and the “unknown” label or custom name.'],
+    checks:[
+      ['Sur ton routeur, lis la ligne de redirection et relève l’hôte LAN et le port interne.','On your router, read the forwarding entry and record the LAN host and internal port.'],
+      ['Sur le serveur correspondant, compare ces valeurs avec la liste des services effectivement démarrés. Si tu viens de changer la configuration, relance le relevé depuis le même poste.','On the corresponding server, compare those values with the list of running services. If you just changed the configuration, repeat the observation from the same machine.']
+    ],
+    finding:['La redirection n’a pas de service identifié ou pointe vers le mauvais hôte. Garde la ligne de configuration et le relevé du jeu dans les notes.','Flag a forward that has no identified service or points to the wrong host. Keep the configuration entry and the in-game observation in your notes.']
+  }
 ];
 const serviceGuides = [
   {name:['Marketplace du jeu · HackShop','In-game marketplace · HackShop'],status:'verified',src:'shop',desc:['Les notes du développeur décrivent historiquement un catalogue qui distingue les bibliothèques et leurs versions. Le catalogue donne un contexte sur la compatibilité. L’interface et les règles de disponibilité peuvent varier selon la branche et la partie.','Developer notes historically describe a catalog that distinguishes libraries and versions. The catalog provides compatibility context. Its interface and availability rules may vary by build and game world.']},
@@ -391,11 +462,14 @@ async function copyCode(code, codeElement, status) {
 
 function buildCard(card) {
   const article = make('article', '', 'card');
-  article.dataset.search = normalize([...card.name, ...card.desc, ...ui[card.status], ...(card.next ?? []), card.code, card.codeEn].join(' '));
+  article.dataset.search = normalize([...card.name, ...card.desc, ...ui[card.status], ...(card.checks?.flat() ?? []), ...(card.finding ?? []), card.code, card.codeEn].join(' '));
   article.append(make('span', t(card.status), 'tag ' + card.status), make('h3', local(card.name)), make('p', local(card.desc)));
-  if (card.next) {
-    const next = make('p', '', 'next');
-    next.append(make('strong', t('next')), document.createTextNode(local(card.next)));
+  if (card.checks) {
+    const next = make('div', '', 'service-details');
+    const list = make('ol');
+    list.append(...card.checks.map((step) => make('li', local(step))));
+    const finding = make('p', local(card.finding));
+    next.append(make('strong', t('next')), list, make('strong', t('finding')), finding);
     article.append(next);
   }
   const code = notebook.lang === 'en' ? card.codeEn ?? card.code : card.code;
@@ -420,8 +494,7 @@ function buildCard(card) {
 }
 
 function renderLibrary() {
-  const serviceCards = services.map((card, index) => ({...card, next:serviceChecks[index]}));
-  for (const [id, cards] of [['setup-cards',setup],['command-cards',commands],['service-cards',serviceCards],['service-guides',serviceGuides],['network-cards',network]]) {
+  for (const [id, cards] of [['setup-cards',setup],['command-cards',commands],['service-cards',services],['service-guides',serviceGuides],['network-cards',network]]) {
     $(id).replaceChildren(...cards.map(buildCard));
   }
   const nodes = [['Côté WAN','WAN side'],['Routeur du jeu','In-game router'],['Hôte LAN','LAN host']];
